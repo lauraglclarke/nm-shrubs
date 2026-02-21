@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Northern New Mexico Shrub Guide</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #65A0D6;
+      color: white;
+      padding: 2rem;
+      text-align: center;
+    }
+    h1 { margin: 0; }
+    #search-container { text-align: center; margin: 1rem 0; }
+    #search {
+      padding: 0.5rem;
+      width: 80%;
+      max-width: 400px;
+      font-size: 1rem;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1rem;
+      padding: 1rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.2rem;
+      color: #040D1C;
+    }
+    .card p { margin: 0.3rem 0; }
+    .native { color: #D88336; font-weight: bold; }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      color: #4A4A4A;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Northern New Mexico Shrub Guide</h1>
+  <p>Native and regionally reliable ornamental shrubs — with mature sizes</p>
+</header>
+
+<div id="search-container">
+  <input type="text" id="search" placeholder="Search shrubs by name, size, sun, or water...">
+</div>
+
+<div class="grid" id="shrub-grid"></div>
+
+<footer>
+  &copy; 2026 Northern New Mexico Shrub Guide
+</footer>
+
+<script>
+const shrubs = [
+  {
+    common: "Western Chokecherry",
+    scientific: "Prunus virginiana",
+    native: true,
+    sun: "Full",
+    water: "Low-Moderate",
+    soil: "Well-drained",
+    size: "6–20 ft tall, 10–20 ft wide",
+    bloom: "Spring flowers; summer berries",
+    notes: "Wildlife food; erosion control" 
+  },
+  {
+    common: "Golden Currant",
+    scientific: "Ribes aureum",
+    native: true,
+    sun: "Full-Partial",
+    water: "Low-Moderate",
+    soil: "Well-drained",
+    size: "6–8 ft tall & wide",
+    bloom: "Spring yellow flowers; summer berries",
+    notes: "Attractive fall color" 
+  },
+  {
+    common: "Wax Currant",
+    scientific: "Ribes cereum",
+    native: true,
+    sun: "Full",
+    water: "Low",
+    soil: "Well-drained",
+    size: "3–5 ft tall & wide",
+    bloom: "Late spring flowers; berries",
+    notes: "Very drought tolerant" 
+  },
+  {
+    common: "Woods’ Rose",
+    scientific: "Rosa woodsii",
+    native: true,
+    sun: "Full-Partial",
+    water: "Low-Moderate",
+    soil: "Well-drained",
+    size: "4–6 ft tall & wide",
+    bloom: "Late spring pink flowers",
+    notes: "Forms thickets in wild settings" 
+  },
+  {
+    common: "Skunkbush Sumac",
+    scientific: "Rhus trilobata",
+    native: true,
+    sun: "Full",
+    water: "Low",
+    soil: "Well-drained",
+    size: "2–6 ft tall & wide",
+    bloom: "Summer flowers; red berries",
+    notes: "Good fall color" 
+  },
+  {
+    common: "Redosier Dogwood",
+    scientific: "Cornus sericea",
+    native: true,
+    sun: "Full-Partial",
+    water: "Moderate",
+    soil: "Moist to wet",
+    size: "8–12 ft tall & wide",
+    bloom: "Spring flowers; red stems",
+    notes: "Great for riparian plantings" 
+  },
+  {
+    common: "Silver Buffaloberry",
+    scientific: "Shepherdia argentea",
+    native: true,
+    sun: "Full-Partial",
+    water: "Low-Moderate",
+    soil: "Well-drained",
+    size: "10–12 ft tall & wide",
+    bloom: "Spring flowers; berries",
+    notes: "Wildlife food" 
+  },
+  {
+    common: "Mountain Snowberry",
+    scientific: "Symphoricarpos oreophilus",
+    native: true,
+    sun: "Full",
+    water: "Low",
+    soil: "Well-drained",
+    size: "3–5 ft tall & wide",
+    bloom: "Summer berries",
+    notes: "Erosion control" 
+  },
+  {
+    common: "Common Lilac",
+    scientific: "Syringa vulgaris",
+    native: false,
+    sun: "Full",
+    water: "Moderate",
+    soil: "Well-drained",
+    size: "8–15 ft tall & wide",
+    bloom: "Late spring fragrant flowers",
+    notes: "Traditional ornamental" 
+  },
+  {
+    common: "Miss Kim Lilac",
+    scientific: "Syringa patula 'Miss Kim'",
+    native: false,
+    sun: "Full",
+    water: "Moderate",
+    soil: "Well-drained",
+    size: "4–5 ft tall & wide",
+    bloom: "Early spring fragrant flowers",
+    notes: "Compact lilac variety" 
+  },
+  {
+    common: "Dwarf Lilac",
+    scientific: "Syringa spp. dwarf varieties",
+    native: false,
+    sun: "Full",
+    water: "Moderate",
+    soil: "Well-drained",
+    size: "3–6 ft tall & wide",
+    bloom: "Spring flowers",
+    notes: "Good for small gardens" 
+  }
+];
+
+function renderShrubs(list) {
+  const grid = document.getElementById('shrub-grid');
+  grid.innerHTML = '';
+  list.forEach(shrub => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.innerHTML = `
+      <h2>${shrub.common} <span class="${shrub.native ? 'native' : ''}">${shrub.native ? '(Native)' : ''}</span></h2>
+      <p><em>${shrub.scientific}</em></p>
+      <p><strong>Sun:</strong> ${shrub.sun}</p>
+      <p><strong>Water:</strong> ${shrub.water}</p>
+      <p><strong>Soil:</strong> ${shrub.soil}</p>
+      <p><strong>Mature Size:</strong> ${shrub.size}</p>
+      <p><strong>Bloom / Fruit:</strong> ${shrub.bloom}</p>
+      <p><strong>Notes:</strong> ${shrub.notes}</p>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+renderShrubs(shrubs);
+
+document.getElementById('search').addEventListener('input', function() {
+  const term = this.value.toLowerCase();
+  const filtered = shrubs.filter(s =>
+    s.common.toLowerCase().includes(term) ||
+    s.scientific.toLowerCase().includes(term) ||
+    s.sun.toLowerCase().includes(term) ||
+    s.water.toLowerCase().includes(term) ||
+    s.soil.toLowerCase().includes(term) ||
+    s.size.toLowerCase().includes(term)
+  );
+  renderShrubs(filtered);
+});
+</script>
+
+</body>
+</html>
