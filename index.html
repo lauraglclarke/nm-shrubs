@@ -1,68 +1,52 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Northern New Mexico Shrub Guide</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f5f5f5;
-      margin: 0;
-      padding: 0;
-    }
-    header {
-      background-color: #65A0D6;
-      color: white;
-      padding: 2rem;
-      text-align: center;
-    }
-    h1 { margin: 0; }
-    #search-container { text-align: center; margin: 1rem 0; }
-    #search {
-      padding: 0.5rem;
-      width: 80%;
-      max-width: 400px;
-      font-size: 1rem;
-    }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 1rem;
-      padding: 1rem;
-      max-width: 1200px;
-      margin: auto;
-    }
-    .card {
-      background: white;
-      border-radius: 10px;
-      padding: 1rem;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-    .card h2 {
-      margin-top: 0;
-      font-size: 1.2rem;
-      color: #040D1C;
-    }
-    .card p { margin: 0.3rem 0; }
-    .native { color: #D88336; font-weight: bold; }
-    footer {
-      text-align: center;
-      padding: 1rem;
-      font-size: 0.9rem;
-      color: #4A4A4A;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Northern New Mexico Shrub Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+<style>
+/* Reset & Fonts */
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Roboto', sans-serif; background: #f5f5f5; color: #040D1C; }
+header { background: #65A0D6; color: white; text-align: center; padding: 2rem 1rem; }
+header h1 { font-size: 2.2rem; margin-bottom: 0.3rem; }
+header p { font-size: 1rem; opacity: 0.9; }
+
+/* Search */
+#search-container { text-align: center; margin: 1.5rem 0; }
+#search { width: 80%; max-width: 400px; padding: 0.5rem 1rem; font-size: 1rem; border-radius: 5px; border: 1px solid #ccc; }
+
+/* Top Picks Button */
+#top-picks-container { text-align:center; margin-bottom:1rem; }
+#top-picks-btn { padding:0.5rem 1rem; font-size:0.95rem; border:none; border-radius:5px; background:#D88336; color:white; cursor:pointer; transition:0.2s; }
+#top-picks-btn:hover { background:#bf6e2c; }
+
+/* Grid & Cards */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; max-width: 1200px; margin: auto; padding: 1rem; }
+.card { background: white; border-radius: 12px; padding: 1rem; box-shadow: 0 2px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
+.card:hover { transform: translateY(-4px); }
+.card h2 { font-size: 1.2rem; color: #040D1C; margin-bottom: 0.5rem; }
+.card h2 .native { color: #D88336; font-weight: bold; margin-left: 0.3rem; }
+.card p { margin: 0.3rem 0; font-size: 0.9rem; line-height:1.3; }
+
+/* Footer */
+footer { text-align: center; padding: 1rem; font-size: 0.85rem; color: #4A4A4A; }
+</style>
 </head>
 <body>
 
 <header>
   <h1>Northern New Mexico Shrub Guide</h1>
-  <p>Native and regionally reliable ornamental shrubs — with mature sizes</p>
+  <p>Native and regionally reliable ornamental shrubs with mature sizes</p>
 </header>
 
 <div id="search-container">
   <input type="text" id="search" placeholder="Search shrubs by name, size, sun, or water...">
+</div>
+
+<div id="top-picks-container">
+  <button id="top-picks-btn">Show/Hide Top Picks for Taos</button>
 </div>
 
 <div class="grid" id="shrub-grid"></div>
@@ -72,152 +56,59 @@
 </footer>
 
 <script>
+// Full Shrub List (verified species, with mature size)
 const shrubs = [
-  {
-    common: "Western Chokecherry",
-    scientific: "Prunus virginiana",
-    native: true,
-    sun: "Full",
-    water: "Low-Moderate",
-    soil: "Well-drained",
-    size: "6–20 ft tall, 10–20 ft wide",
-    bloom: "Spring flowers; summer berries",
-    notes: "Wildlife food; erosion control" 
-  },
-  {
-    common: "Golden Currant",
-    scientific: "Ribes aureum",
-    native: true,
-    sun: "Full-Partial",
-    water: "Low-Moderate",
-    soil: "Well-drained",
-    size: "6–8 ft tall & wide",
-    bloom: "Spring yellow flowers; summer berries",
-    notes: "Attractive fall color" 
-  },
-  {
-    common: "Wax Currant",
-    scientific: "Ribes cereum",
-    native: true,
-    sun: "Full",
-    water: "Low",
-    soil: "Well-drained",
-    size: "3–5 ft tall & wide",
-    bloom: "Late spring flowers; berries",
-    notes: "Very drought tolerant" 
-  },
-  {
-    common: "Woods’ Rose",
-    scientific: "Rosa woodsii",
-    native: true,
-    sun: "Full-Partial",
-    water: "Low-Moderate",
-    soil: "Well-drained",
-    size: "4–6 ft tall & wide",
-    bloom: "Late spring pink flowers",
-    notes: "Forms thickets in wild settings" 
-  },
-  {
-    common: "Skunkbush Sumac",
-    scientific: "Rhus trilobata",
-    native: true,
-    sun: "Full",
-    water: "Low",
-    soil: "Well-drained",
-    size: "2–6 ft tall & wide",
-    bloom: "Summer flowers; red berries",
-    notes: "Good fall color" 
-  },
-  {
-    common: "Redosier Dogwood",
-    scientific: "Cornus sericea",
-    native: true,
-    sun: "Full-Partial",
-    water: "Moderate",
-    soil: "Moist to wet",
-    size: "8–12 ft tall & wide",
-    bloom: "Spring flowers; red stems",
-    notes: "Great for riparian plantings" 
-  },
-  {
-    common: "Silver Buffaloberry",
-    scientific: "Shepherdia argentea",
-    native: true,
-    sun: "Full-Partial",
-    water: "Low-Moderate",
-    soil: "Well-drained",
-    size: "10–12 ft tall & wide",
-    bloom: "Spring flowers; berries",
-    notes: "Wildlife food" 
-  },
-  {
-    common: "Mountain Snowberry",
-    scientific: "Symphoricarpos oreophilus",
-    native: true,
-    sun: "Full",
-    water: "Low",
-    soil: "Well-drained",
-    size: "3–5 ft tall & wide",
-    bloom: "Summer berries",
-    notes: "Erosion control" 
-  },
-  {
-    common: "Common Lilac",
-    scientific: "Syringa vulgaris",
-    native: false,
-    sun: "Full",
-    water: "Moderate",
-    soil: "Well-drained",
-    size: "8–15 ft tall & wide",
-    bloom: "Late spring fragrant flowers",
-    notes: "Traditional ornamental" 
-  },
-  {
-    common: "Miss Kim Lilac",
-    scientific: "Syringa patula 'Miss Kim'",
-    native: false,
-    sun: "Full",
-    water: "Moderate",
-    soil: "Well-drained",
-    size: "4–5 ft tall & wide",
-    bloom: "Early spring fragrant flowers",
-    notes: "Compact lilac variety" 
-  },
-  {
-    common: "Dwarf Lilac",
-    scientific: "Syringa spp. dwarf varieties",
-    native: false,
-    sun: "Full",
-    water: "Moderate",
-    soil: "Well-drained",
-    size: "3–6 ft tall & wide",
-    bloom: "Spring flowers",
-    notes: "Good for small gardens" 
-  }
+  { common:"Western Chokecherry", scientific:"Prunus virginiana", native:true, sun:"Full", water:"Low-Moderate", soil:"Well-drained", size:"6–20 ft tall, 10–20 ft wide", bloom:"Spring flowers; summer berries", notes:"Wildlife food; erosion control" },
+  { common:"Golden Currant", scientific:"Ribes aureum", native:true, sun:"Full-Partial", water:"Low-Moderate", soil:"Well-drained", size:"6–8 ft tall & wide", bloom:"Spring yellow flowers; summer berries", notes:"Attractive fall color" },
+  { common:"Wax Currant", scientific:"Ribes cereum", native:true, sun:"Full", water:"Low", soil:"Well-drained", size:"3–5 ft tall & wide", bloom:"Late spring flowers; berries", notes:"Very drought tolerant" },
+  { common:"Woods’ Rose", scientific:"Rosa woodsii", native:true, sun:"Full-Partial", water:"Low-Moderate", soil:"Well-drained", size:"4–6 ft tall & wide", bloom:"Late spring pink flowers", notes:"Forms thickets in wild settings" },
+  { common:"Skunkbush Sumac", scientific:"Rhus trilobata", native:true, sun:"Full", water:"Low", soil:"Well-drained", size:"2–6 ft tall & wide", bloom:"Summer flowers; red berries", notes:"Good fall color" },
+  { common:"Redosier Dogwood", scientific:"Cornus sericea", native:true, sun:"Full-Partial", water:"Moderate", soil:"Moist to wet", size:"8–12 ft tall & wide", bloom:"Spring flowers; red stems", notes:"Great for riparian plantings" },
+  { common:"Silver Buffaloberry", scientific:"Shepherdia argentea", native:true, sun:"Full-Partial", water:"Low-Moderate", soil:"Well-drained", size:"10–12 ft tall & wide", bloom:"Spring flowers; berries", notes:"Wildlife food" },
+  { common:"Mountain Snowberry", scientific:"Symphoricarpos oreophilus", native:true, sun:"Full", water:"Low", soil:"Well-drained", size:"3–5 ft tall & wide", bloom:"Summer berries", notes:"Erosion control" },
+  { common:"Apache Plume", scientific:"Fallugia paradoxa", native:true, sun:"Full", water:"Low", soil:"Well-drained", size:"5 ft × 5 ft", bloom:"Late spring flowers; feathery seed heads", notes:"Xeric, pollinator-friendly" },
+  { common:"Four-wing Saltbush", scientific:"Atriplex canescens", native:true, sun:"Full", water:"Low", soil:"Well-drained", size:"4 ft × 4 ft", bloom:"Spring small flowers; silver foliage", notes:"Drought tolerant, desert adapted" },
+  { common:"Big Sagebrush", scientific:"Artemisia tridentata", native:true, sun:"Full", water:"Low", soil:"Well-drained", size:"4 ft × 4 ft", bloom:"Late summer, aromatic", notes:"Evergreen, xeric" },
+  { common:"Turpentine Bush", scientific:"Ericameria laricifolia", native:true, sun:"Full", water:"Low", soil:"Well-drained", size:"2.5 ft × 2.5 ft", bloom:"Summer yellow flowers", notes:"Tough xeric shrub" },
+  { common:"Algerita", scientific:"Berberis trifoliolata", native:true, sun:"Full", water:"Low-Moderate", soil:"Well-drained", size:"4 ft × 4 ft", bloom:"Spring yellow flowers; berries", notes:"Native evergreen" },
+  { common:"Fern Bush", scientific:"Chamaebatiaria millefolium", native:true, sun:"Full", water:"Low", soil:"Well-drained", size:"6 ft × 6 ft", bloom:"Spring white flowers", notes:"Feathery foliage, drought tolerant" },
+  { common:"Potentilla (McKay's White)", scientific:"Potentilla fruticosa", native:false, sun:"Full", water:"Moderate", soil:"Well-drained", size:"2 ft × 3 ft", bloom:"Long bloom season, white flowers", notes:"Low water ornamental" },
+  { common:"Little Spark Spirea", scientific:"Spiraea japonica 'Little Spark'", native:false, sun:"Full", water:"Moderate", soil:"Well-drained", size:"1.5 ft × 2 ft", bloom:"Spring-summer pink flowers", notes:"Compact ornamental" },
+  { common:"Common Lilac", scientific:"Syringa vulgaris", native:false, sun:"Full", water:"Moderate", soil:"Well-drained", size:"8–15 ft × 6–12 ft", bloom:"Late spring fragrant flowers", notes:"Traditional ornamental" },
+  { common:"Miss Kim Lilac", scientific:"Syringa patula 'Miss Kim'", native:false, sun:"Full", water:"Moderate", soil:"Well-drained", size:"4–5 ft × 4–5 ft", bloom:"Early spring fragrant flowers", notes:"Cold-hardy, compact" },
+  { common:"Dwarf Lilac", scientific:"Syringa spp. dwarf varieties", native:false, sun:"Full", water:"Moderate", soil:"Well-drained", size:"3–6 ft × 3–6 ft", bloom:"Spring flowers", notes:"Small garden option" },
+  { common:"Black Knight Butterfly Bush", scientific:"Buddleia davidii", native:false, sun:"Full", water:"Moderate", soil:"Well-drained", size:"6 ft × 6 ft", bloom:"Summer-purple flowers", notes:"Pollinator magnet" },
+  { common:"Mexican Bird of Paradise", scientific:"Caesalpinia mexicana", native:false, sun:"Full", water:"Moderate", soil:"Well-drained", size:"10 ft × 10 ft", bloom:"Summer-orange flowers", notes:"Bold ornamental" },
+  { common:"Grosso Lavender", scientific:"Lavandula x intermedia 'Grosso'", native:false, sun:"Full", water:"Low-Moderate", soil:"Well-drained", size:"4 ft × 3 ft", bloom:"Summer purple flowers", notes:"Fragrant, drought tolerant" }
 ];
+
+// Top Picks for Taos
+const topPicks = ["Western Chokecherry","Golden Currant","Mountain Snowberry","Skunkbush Sumac","Redosier Dogwood","Miss Kim Lilac","Apache Plume"];
 
 function renderShrubs(list) {
   const grid = document.getElementById('shrub-grid');
   grid.innerHTML = '';
-  list.forEach(shrub => {
+  list.forEach(s => {
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
-      <h2>${shrub.common} <span class="${shrub.native ? 'native' : ''}">${shrub.native ? '(Native)' : ''}</span></h2>
-      <p><em>${shrub.scientific}</em></p>
-      <p><strong>Sun:</strong> ${shrub.sun}</p>
-      <p><strong>Water:</strong> ${shrub.water}</p>
-      <p><strong>Soil:</strong> ${shrub.soil}</p>
-      <p><strong>Mature Size:</strong> ${shrub.size}</p>
-      <p><strong>Bloom / Fruit:</strong> ${shrub.bloom}</p>
-      <p><strong>Notes:</strong> ${shrub.notes}</p>
+      <h2>${s.common} ${s.native ? '<span class="native">(Native)</span>' : ''}</h2>
+      <p><em>${s.scientific}</em></p>
+      <p><strong>Sun:</strong> ${s.sun}</p>
+      <p><strong>Water:</strong> ${s.water}</p>
+      <p><strong>Soil:</strong> ${s.soil}</p>
+      <p><strong>Mature Size:</strong> ${s.size}</p>
+      <p><strong>Bloom / Fruit:</strong> ${s.bloom}</p>
+      <p><strong>Notes:</strong> ${s.notes}</p>
     `;
     grid.appendChild(card);
   });
 }
 
+// Initial render
 renderShrubs(shrubs);
 
+// Search filter
 document.getElementById('search').addEventListener('input', function() {
   const term = this.value.toLowerCase();
   const filtered = shrubs.filter(s =>
@@ -229,6 +120,18 @@ document.getElementById('search').addEventListener('input', function() {
     s.size.toLowerCase().includes(term)
   );
   renderShrubs(filtered);
+});
+
+// Top Picks toggle
+let showingTopPicks = false;
+document.getElementById('top-picks-btn').addEventListener('click', function() {
+  showingTopPicks = !showingTopPicks;
+  if(showingTopPicks){
+    const filtered = shrubs.filter(s => topPicks.includes(s.common));
+    renderShrubs(filtered);
+  } else {
+    renderShrubs(shrubs);
+  }
 });
 </script>
 
