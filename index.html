@@ -26,6 +26,7 @@ header p { font-size: 1rem; opacity: 0.9; }
 .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem; max-width: 1200px; margin: auto; padding: 1rem; }
 .card { background: white; border-radius: 12px; padding: 1rem; box-shadow: 0 2px 6px rgba(0,0,0,0.1); transition: transform 0.2s; }
 .card:hover { transform: translateY(-4px); }
+.card img { width: 100%; height: 150px; background: #e5e5e5; border-radius: 8px; object-fit: cover; margin-bottom: 0.5rem; }
 .card h2 { font-size: 1.2rem; color: #040D1C; margin-bottom: 0.5rem; }
 .card h2 .native { color: #D88336; font-weight: bold; margin-left: 0.3rem; }
 .card p { margin: 0.3rem 0; font-size: 0.9rem; line-height:1.3; }
@@ -56,7 +57,7 @@ footer { text-align: center; padding: 1rem; font-size: 0.85rem; color: #4A4A4A; 
 </footer>
 
 <script>
-// Full Shrub List (verified species, with mature size)
+// Full Shrub List (text placeholders for images)
 const shrubs = [
   { common:"Western Chokecherry", scientific:"Prunus virginiana", native:true, sun:"Full", water:"Low-Moderate", soil:"Well-drained", size:"6–20 ft tall, 10–20 ft wide", bloom:"Spring flowers; summer berries", notes:"Wildlife food; erosion control" },
   { common:"Golden Currant", scientific:"Ribes aureum", native:true, sun:"Full-Partial", water:"Low-Moderate", soil:"Well-drained", size:"6–8 ft tall & wide", bloom:"Spring yellow flowers; summer berries", notes:"Attractive fall color" },
@@ -92,6 +93,7 @@ function renderShrubs(list) {
     const card = document.createElement('div');
     card.className = 'card';
     card.innerHTML = `
+      <img src="#" alt="Placeholder image">
       <h2>${s.common} ${s.native ? '<span class="native">(Native)</span>' : ''}</h2>
       <p><em>${s.scientific}</em></p>
       <p><strong>Sun:</strong> ${s.sun}</p>
